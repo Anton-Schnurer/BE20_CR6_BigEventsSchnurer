@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Events index{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+    <h1>Events index</h1>
+
+    <a class="btn btn-success mt-4" href="{{ path('app_events_index') }}">Show All</a>
+    {% for type in types %}
+        <a class="btn btn-success mt-4" href="{{ path('app_events_filter', {'type': type.id}) }}">{{ type.name }}</a> 
+    {% endfor %}
+    <br>
+    <br>
+    <div class="row row-cols-lg-5 row-cols-md-4 row-cols-sm-3 row-cols-xs-1">
+        {% for event in events %}
+        <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ event.name }}</h5>
+            <p class="card-text">{{ event.fk_event_type.name }}</p>
+            <img src="{{ event.picture }}" alt="no picture" width="150" length="150">
+            <p>
+                Starts at:
+                {{ event.dateTimeStart ? event.dateTimeStart|date('Y-m-d H:i:s') : '' }}
+              </p>
+
+              <a class="btn btn-success"
+              href="{{ path('app_events_show', {'id': event.id}) }}"
+              >show</a>
+              <a class="btn btn-warning"
+              href="{{ path('app_events_edit', { id: event.id }) }}"
+              >edit</a>
+        </div>
+        </div>
+    
+        {% else %}
+        <p>no records found</p>
+        {% endfor %}
+    </div>
+    <a class="btn btn-warning mt-4" href="{{ path('app_events_new') }}"
+        >Create new</a></br> 
+    <a class="btn btn-primary" 
+    href="{{ path('app_static') }}"
+    >Back to landing page</a>
+    </div>
+
+
+</div>
+{% endblock %}
